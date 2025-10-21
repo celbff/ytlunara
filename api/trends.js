@@ -48,12 +48,10 @@ async function scrapeFallback() {
   }));
 }
 
-export default async function handler(req, res) {
-  try {
-    const now = Date.now();
-    if (cache.data && (now - cache.ts) < CACHE_TTL_MS) {
-      return res.status(200).json(cache.data);
-    }
+export default function handler(req, res) {
+  res.status(200).json({ message: 'Trends endpoint funcionando!' });
+}
+
 
     const instances = getInstances();
     let topics = [];
@@ -87,3 +85,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Erro interno ao buscar tendências" });
   }
 }
+
