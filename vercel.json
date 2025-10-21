@@ -3,9 +3,13 @@
   "functions": {
     "api/trends.js": {
       "runtime": "nodejs18.x"
+    },
+  "api/generate.js": {
+    "runtime": "nodejs18.x"
     }
   },
   "routes": [
     { "src": "/api/trends", "dest": "/api/trends.js" }
+    { "src": "/api/generate", "dest": "/api/generate.js" }  
   ]
 }
