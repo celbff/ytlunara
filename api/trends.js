@@ -32,7 +32,6 @@ async function tryInvidious(instance) {
 }
 
 async function scrapeFallback() {
-  // Fallback simples via HTML scraping
   const res = await fetch("https://www.youtube.com/feed/trending", {
     headers: { "User-Agent": "Mozilla/5.0" },
   });
@@ -48,13 +47,16 @@ async function scrapeFallback() {
   }));
 }
 
-export default function handler(req, res) {
-  res.status(200).json({ message: 'Trends endpoint funcionando!' });
-}
-
+export default async function handler(req, res) {
+  try {
+    const now = Date.now();
+    if (cache.data && now - cache.ts < CACHE_TTL_MS) {
+      return res.status(200).json(cache.data);
+    }
 
     const instances = getInstances();
     let topics = [];
+
     for (const inst of instances) {
       try {
         topics = await tryInvidious(inst);
@@ -85,4 +87,3 @@ export default function handler(req, res) {
     res.status(500).json({ error: "Erro interno ao buscar tendências" });
   }
 }
-
